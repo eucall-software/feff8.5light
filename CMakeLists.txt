@@ -47,5 +47,4 @@ endif (Fortran_COMPILER_NAME MATCHES "gfortran.*")
 add_executable ("feff85L" "src/feff85L.f")
 
 # install executables and scripts
-install (TARGETS "feff85L"
-         RUNTIME DESTINATION "bin")
+install (TARGETS "feff85L" RUNTIME DESTINATION "bin")
