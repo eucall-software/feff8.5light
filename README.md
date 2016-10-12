@@ -13,7 +13,10 @@ Copyright (c) [2013] University of Washington
 
 Building the software
 ---------------------
-cd src
-cmake .
-make
-make install
+```bash
+$> cd src
+$> cmake .
+$> make
+$> make install
+```
+The last step (by default) installs the executable in bin/
