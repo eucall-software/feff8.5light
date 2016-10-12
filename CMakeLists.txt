@@ -13,7 +13,7 @@ if (NOT CMAKE_BUILD_TYPE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 # default installation
-get_filename_component (default_prefix ".." ABSOLUTE)
+get_filename_component (default_prefix "." ABSOLUTE)
 set (CMAKE_INSTALL_PREFIX ${default_prefix} CACHE STRING
       "Choose the installation directory; by default it installs in the top-level directory."
       FORCE)
@@ -44,7 +44,7 @@ endif (Fortran_COMPILER_NAME MATCHES "gfortran.*")
 
 
 # build executables
-add_executable ("feff85L" "feff85L.f")
+add_executable ("feff85L" "src/feff85L.f")
 
 # install executables and scripts
 install (TARGETS "feff85L"
