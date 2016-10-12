@@ -21,15 +21,20 @@ set (CMAKE_INSTALL_PREFIX ${default_prefix} CACHE STRING
 # FFLAGS depend on the compiler
 get_filename_component (Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
 
+MESSAGE("CMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}")
+MESSAGE("Fortran_COMPILER_NAME=${Fortran_COMPILER_NAME}")
+
 if (Fortran_COMPILER_NAME MATCHES "gfortran.*")
   # gfortran
-  set (CMAKE_Fortran_FLAGS_RELEASE "-funroll-all-loops -fno-f2c -O3")
+  if (DEFINED ${MKLROOT})
+      set (CMAKE_Fortran_FLAGS_RELEASE "-funroll-all-loops -fno-f2c -O3  -m64 -I${MKLROOT}/include -Wl,--no-as-needed -L${MKLROOT}/lib/intel64 -lmkl_gf_lp64 -lmkl_core -lmkl_sequential -lpthread -lm -ldl")
+  else(DEFINED ${MKLROOT})
+      set (CMAKE_Fortran_FLAGS_RELEASE "-funroll-all-loops -fno-f2c -O3")
+  endif(DEFINED ${MKLROOT})
   set (CMAKE_Fortran_FLAGS_DEBUG   "-fno-f2c -O0 -g")
 elseif (Fortran_COMPILER_NAME MATCHES "ifort.*")
-  # ifort (untested)
-  set (CMAKE_Fortran_FLAGS_RELEASE "-f77rtl -O3")
+  set (CMAKE_Fortran_FLAGS_RELEASE "-f77rtl -O3 -m64 -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_sequential -lpthread -lm -ldl")
   set (CMAKE_Fortran_FLAGS_DEBUG   "-f77rtl -O0 -g")
-  ### TODO: ADD MKL later.
 elseif (Fortran_COMPILER_NAME MATCHES "g77")
   # g77
   set (CMAKE_Fortran_FLAGS_RELEASE "-funroll-all-loops -fno-f2c -O3 -m32")
